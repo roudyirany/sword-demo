@@ -7,13 +7,13 @@ import retrofit2.http.Query
 
 interface ApiService {
 
-    @GET("/breeds")
+    @GET("breeds")
     fun getBreeds(
         @Query("page") page: Int? = null,
         @Query("limit") limit: Int? = null
     ): Observable<List<Breed>>
 
-    @GET("/breeds/search")
+    @GET("breeds/search")
     fun searchBreed(
         @Query("q") name: String
     ): Observable<List<Breed>>
