@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sword.demo.R
 import com.sword.demo.base.BaseFragment
+import com.sword.demo.base.BasePaginationScrollListener
 import com.sword.demo.databinding.FragmentHomeBinding
 import com.sword.demo.extensions.addSubscriptionTo
 import com.sword.demo.ui.home.adapter.BreedGridItemAdapter
@@ -45,13 +47,29 @@ class HomeFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        homeViewModel.getBreeds()
-            .doOnSubscribe { binding.progressBar.show() }
-            .doOnNext { binding.progressBar.hide() }
+        homeViewModel.breedsChanges()
+            .doOnSubscribe { binding.progressBar.visibility = View.VISIBLE }
+            .doOnNext { binding.progressBar.visibility = View.GONE }
             .subscribe { items ->
-                listAdapter.update(items)
+                listAdapter.add(items)
             }
             .addSubscriptionTo(this)
+
+        homeViewModel.errorOccurs()
+            .subscribe { error ->
+                Toast.makeText(requireContext(), error.localizedMessage, Toast.LENGTH_LONG).show()
+            }
+            .addSubscriptionTo(this)
+
+        binding.recyclerView.addOnScrollListener(object :
+            BasePaginationScrollListener(binding.recyclerView.layoutManager) {
+            override fun loadMoreItems() {
+                homeViewModel.getBreeds()
+            }
+
+            override val isLoading: Boolean
+                get() = homeViewModel.isLoading
+        })
     }
 
     override fun onDestroyView() {

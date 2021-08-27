@@ -23,13 +23,8 @@ class BreedListItemAdapter : RecyclerView.Adapter<BreedItemViewHolder>() {
 
     override fun getItemCount() = items.size
 
-    fun update(items: List<Breed>) {
-        this.items.clear()
-        add(items)
-    }
-
     fun add(items: List<Breed>) {
         this.items.addAll(items)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(this.items.size - items.size, items.size)
     }
 }
