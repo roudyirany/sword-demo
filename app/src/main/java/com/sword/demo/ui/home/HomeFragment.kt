@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.jakewharton.rxbinding4.widget.checkedChanges
 import com.sword.demo.R
 import com.sword.demo.base.BaseFragment
 import com.sword.demo.base.BasePaginationScrollListener
@@ -33,25 +35,47 @@ class HomeFragment : BaseFragment() {
     @Inject
     lateinit var gridAdapter: BreedGridItemAdapter
 
+    @Inject
+    lateinit var linearLayoutManager: LinearLayoutManager
+
+    @Inject
+    lateinit var staggeredGridLayoutManager: StaggeredGridLayoutManager
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        binding.recyclerView.adapter = listAdapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.listGridSwitch
+            .checkedChanges()
+            .doOnSubscribe {
+                binding.recyclerView.adapter = listAdapter
+                binding.recyclerView.layoutManager = linearLayoutManager
+            }
+            .subscribe { isChecked ->
+                if (isChecked) {
+                    binding.recyclerView.adapter = gridAdapter
+                    binding.recyclerView.layoutManager = staggeredGridLayoutManager
+                } else {
+                    binding.recyclerView.adapter = listAdapter
+                    binding.recyclerView.layoutManager = linearLayoutManager
+                }
+            }
+            .addSubscriptionTo(this)
+
         homeViewModel.breedsChanges()
             .doOnSubscribe { binding.progressBar.visibility = View.VISIBLE }
             .doOnNext { binding.progressBar.visibility = View.GONE }
             .subscribe { items ->
                 listAdapter.add(items)
+                gridAdapter.add(items)
             }
             .addSubscriptionTo(this)
 
@@ -62,7 +86,7 @@ class HomeFragment : BaseFragment() {
             .addSubscriptionTo(this)
 
         binding.recyclerView.addOnScrollListener(object :
-            BasePaginationScrollListener(binding.recyclerView.layoutManager) {
+            BasePaginationScrollListener() {
             override fun loadMoreItems() {
                 homeViewModel.getBreeds()
             }

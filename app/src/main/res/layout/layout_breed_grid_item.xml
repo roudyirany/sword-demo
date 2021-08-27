@@ -18,6 +18,8 @@
         android:id="@+id/breed_text_view"
         android:layout_width="@dimen/layout_breed_grid_item_image_view_size"
         android:layout_height="@dimen/layout_breed_grid_item_image_view_size"
+        android:gravity="bottom|center"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
