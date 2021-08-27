@@ -20,9 +20,16 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "SERVER_URL", "\"https://api.thedogapi.com/v1\""
+            buildConfigField "String", "API_KEY", "\"835acd5d-f48e-477c-a7da-31e17f620cc1\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            buildConfigField "String", "SERVER_URL", "\"https://api.thedogapi.com/v1\""
+            buildConfigField "String", "API_KEY", "\"835acd5d-f48e-477c-a7da-31e17f620cc1\""
         }
     }
     compileOptions {
