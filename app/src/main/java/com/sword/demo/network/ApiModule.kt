@@ -4,27 +4,27 @@ import com.sword.demo.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.ViewModelScoped
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
-import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(ViewModelComponent::class)
 class ApiModule {
 
-    @Singleton
+    @ViewModelScoped
     @Provides
     @Named("auth_interceptor")
     fun bindAuthInterceptor(): Interceptor {
         return AuthInterceptor()
     }
 
-    @Singleton
+    @ViewModelScoped
     @Provides
     fun provideHttpClient(
         @Named("auth_interceptor") authInterceptor: Interceptor
@@ -34,7 +34,7 @@ class ApiModule {
             .build()
     }
 
-    @Singleton
+    @ViewModelScoped
     @Provides
     fun provideRetrofit(
         okHttpClient: OkHttpClient
@@ -47,7 +47,7 @@ class ApiModule {
             .build()
     }
 
-    @Singleton
+    @ViewModelScoped
     @Provides
     fun provideApiService(
         retrofit: Retrofit
