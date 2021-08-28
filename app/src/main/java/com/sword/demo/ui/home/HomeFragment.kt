@@ -89,6 +89,7 @@ class HomeFragment : BaseFragment() {
             .addSubscriptionTo(this)
 
         homeViewModel.errorOccurs()
+            .doOnNext { binding.progressBar.visibility = View.GONE }
             .subscribe { error ->
                 Toast.makeText(requireContext(), error.localizedMessage, Toast.LENGTH_LONG).show()
             }
