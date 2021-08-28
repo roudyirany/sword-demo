@@ -1,4 +1,4 @@
-package com.sword.demo.ui.dashboard
+package com.sword.demo.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,14 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Observer
 import com.sword.demo.R
-import com.sword.demo.databinding.FragmentDashboardBinding
+import com.sword.demo.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DashboardFragment : Fragment() {
+class SearchFragment : Fragment() {
 
-    private val dashboardViewModel: DashboardViewModel by hiltNavGraphViewModels(R.id.mobile_navigation)
-    private var _binding: FragmentDashboardBinding? = null
+    private val searchViewModel: SearchViewModel by hiltNavGraphViewModels(R.id.mobile_navigation)
+    private var _binding: FragmentSearchBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -27,11 +27,11 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
+        searchViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
