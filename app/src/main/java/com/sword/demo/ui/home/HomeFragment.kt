@@ -72,10 +72,16 @@ class HomeFragment : BaseFragment() {
 
         homeViewModel.breedsChanges()
             .doOnSubscribe { binding.progressBar.visibility = View.VISIBLE }
-            .doOnNext { binding.progressBar.visibility = View.GONE }
-            .subscribe { items ->
+            .doOnNext { (items, _) ->
+                binding.progressBar.visibility = View.GONE
                 listAdapter.add(items)
                 gridAdapter.add(items)
+            }
+            .filter { (_, shouldScroll) ->
+                shouldScroll && !binding.recyclerView.canScrollVertically(1)
+            }
+            .subscribe {
+                binding.recyclerView.smoothScrollBy(0, 100)
             }
             .addSubscriptionTo(this)
 

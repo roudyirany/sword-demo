@@ -24,7 +24,7 @@ class HomeViewModel @Inject constructor(
 
     override var disposeBag = CompositeDisposable()
 
-    private val breedsSubject = PublishSubject.create<List<Breed>>()
+    private val breedsSubject = PublishSubject.create<Pair<List<Breed>, Boolean>>()
 
     private val breedsError = PublishSubject.create<Throwable>()
 
@@ -50,14 +50,14 @@ class HomeViewModel @Inject constructor(
             .filter { items -> items.isNotEmpty() }
             .doOnNext { lastIndex = page + 1 }
             .subscribe({ items ->
-                breedsSubject.onNext(items)
+                breedsSubject.onNext(items to (page > 0))
             }, { error ->
                 breedsError.onNext(error)
             })
             .addSubscriptionTo(this)
     }
 
-    fun breedsChanges(): Observable<List<Breed>> {
+    fun breedsChanges(): Observable<Pair<List<Breed>, Boolean>> {
         getBreeds(0)
         return breedsSubject.hide()
     }
