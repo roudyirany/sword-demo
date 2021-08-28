@@ -8,10 +8,10 @@ import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.jakewharton.rxbinding4.view.scrollChangeEvents
 import com.jakewharton.rxbinding4.widget.checkedChanges
 import com.sword.demo.R
 import com.sword.demo.base.BaseFragment
-import com.sword.demo.base.BasePaginationScrollListener
 import com.sword.demo.databinding.FragmentHomeBinding
 import com.sword.demo.extensions.addSubscriptionTo
 import com.sword.demo.ui.home.adapter.BreedGridItemAdapter
@@ -85,15 +85,17 @@ class HomeFragment : BaseFragment() {
             }
             .addSubscriptionTo(this)
 
-        binding.recyclerView.addOnScrollListener(object :
-            BasePaginationScrollListener() {
-            override fun loadMoreItems() {
+        binding.recyclerView
+            .scrollChangeEvents()
+            .map { binding.recyclerView }
+            .filter { recyclerView ->
+                !recyclerView.canScrollVertically(1)
+                        && !homeViewModel.isLoading
+            }
+            .subscribe {
                 homeViewModel.getBreeds()
             }
-
-            override val isLoading: Boolean
-                get() = homeViewModel.isLoading
-        })
+            .addSubscriptionTo(this)
     }
 
     override fun onDestroyView() {
