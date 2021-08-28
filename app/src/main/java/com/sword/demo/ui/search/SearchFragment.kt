@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.jakewharton.rxbinding4.widget.queryTextChanges
 import com.sword.demo.R
@@ -50,9 +51,11 @@ class SearchFragment : BaseFragment() {
             .flatMap { name ->
                 searchViewModel.searchBreed(name)
             }
-            .subscribe { items ->
+            .subscribe({ items ->
                 adapter.update(items)
-            }
+            }, { error ->
+                Toast.makeText(requireContext(), error.localizedMessage, Toast.LENGTH_LONG).show()
+            })
             .addSubscriptionTo(this)
     }
 
