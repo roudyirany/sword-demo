@@ -14,8 +14,8 @@ class SearchViewModel @Inject constructor(
     private val apiService: ApiService
 ) : ViewModel() {
 
-    fun searchBreed(name: String): Observable<List<Breed>> {
-        return apiService.searchBreed(name)
+    fun searchBreed(name: CharSequence): Observable<List<Breed>> {
+        return apiService.searchBreed(name.toString())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

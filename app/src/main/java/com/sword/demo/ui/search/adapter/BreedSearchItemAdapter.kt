@@ -23,8 +23,9 @@ class BreedSearchItemAdapter : RecyclerView.Adapter<BreedSearchItemViewHolder>()
 
     override fun getItemCount() = items.size
 
-    fun add(items: List<Breed>) {
+    fun update(items: List<Breed>) {
+        this.items.clear()
         this.items.addAll(items)
-        notifyItemRangeInserted(this.items.size - items.size, items.size)
+        notifyDataSetChanged()
     }
 }
