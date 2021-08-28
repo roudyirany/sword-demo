@@ -33,6 +33,8 @@ class HomeViewModel @Inject constructor(
     var isLoading = false
         private set
 
+    var isGridMode = false
+
     override fun onCleared() {
         super.onCleared()
         disposeBag.clear()

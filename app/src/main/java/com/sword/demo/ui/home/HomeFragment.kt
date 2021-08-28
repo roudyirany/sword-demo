@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.view.scrollChangeEvents
-import com.jakewharton.rxbinding4.widget.checkedChanges
 import com.sword.demo.R
 import com.sword.demo.base.BaseFragment
 import com.sword.demo.databinding.FragmentHomeBinding
@@ -42,7 +42,7 @@ class HomeFragment : BaseFragment() {
 
     @Inject
     @Named("grid_layout_manager")
-    lateinit var staggeredGridLayoutManager: RecyclerView.LayoutManager
+    lateinit var gridLayoutManager: RecyclerView.LayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,23 +55,6 @@ class HomeFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.listGridSwitch
-            .checkedChanges()
-            .doOnSubscribe {
-                binding.recyclerView.adapter = listAdapter
-                binding.recyclerView.layoutManager = linearLayoutManager
-            }
-            .subscribe { isChecked ->
-                if (isChecked) {
-                    binding.recyclerView.adapter = gridAdapter
-                    binding.recyclerView.layoutManager = staggeredGridLayoutManager
-                } else {
-                    binding.recyclerView.adapter = listAdapter
-                    binding.recyclerView.layoutManager = linearLayoutManager
-                }
-            }
-            .addSubscriptionTo(this)
 
         homeViewModel.breedsChanges()
             .doOnSubscribe { binding.progressBar.visibility = View.VISIBLE }
@@ -106,10 +89,29 @@ class HomeFragment : BaseFragment() {
                 homeViewModel.getBreeds()
             }
             .addSubscriptionTo(this)
+
+        binding.listGridFab
+            .clicks()
+            .doOnSubscribe { setIsGridMode(homeViewModel.isGridMode) }
+            .subscribe { setIsGridMode(!homeViewModel.isGridMode) }
+            .addSubscriptionTo(this)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setIsGridMode(isGridMode: Boolean) {
+        homeViewModel.isGridMode = isGridMode
+        if (isGridMode) {
+            binding.listGridFab.setImageResource(R.drawable.ic_baseline_view_list_24)
+            binding.recyclerView.adapter = gridAdapter
+            binding.recyclerView.layoutManager = gridLayoutManager
+        } else {
+            binding.listGridFab.setImageResource(R.drawable.ic_baseline_grid_on_24)
+            binding.recyclerView.adapter = listAdapter
+            binding.recyclerView.layoutManager = linearLayoutManager
+        }
     }
 }
