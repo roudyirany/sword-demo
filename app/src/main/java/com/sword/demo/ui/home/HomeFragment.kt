@@ -6,18 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding4.view.scrollChangeEvents
 import com.jakewharton.rxbinding4.widget.checkedChanges
 import com.sword.demo.R
 import com.sword.demo.base.BaseFragment
 import com.sword.demo.databinding.FragmentHomeBinding
 import com.sword.demo.extensions.addSubscriptionTo
-import com.sword.demo.ui.home.adapter.BreedGridItemAdapter
-import com.sword.demo.ui.home.adapter.BreedListItemAdapter
+import com.sword.demo.ui.home.adapter.BreedItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
@@ -30,16 +29,20 @@ class HomeFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     @Inject
-    lateinit var listAdapter: BreedListItemAdapter
+    @Named("list_adapter")
+    lateinit var listAdapter: BreedItemAdapter
 
     @Inject
-    lateinit var gridAdapter: BreedGridItemAdapter
+    @Named("grid_adapter")
+    lateinit var gridAdapter: BreedItemAdapter
 
     @Inject
-    lateinit var linearLayoutManager: LinearLayoutManager
+    @Named("linear_layout_manager")
+    lateinit var linearLayoutManager: RecyclerView.LayoutManager
 
     @Inject
-    lateinit var staggeredGridLayoutManager: StaggeredGridLayoutManager
+    @Named("grid_layout_manager")
+    lateinit var staggeredGridLayoutManager: RecyclerView.LayoutManager
 
     override fun onCreateView(
         inflater: LayoutInflater,

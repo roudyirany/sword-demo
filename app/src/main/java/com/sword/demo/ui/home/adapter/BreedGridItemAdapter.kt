@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sword.demo.R
 import com.sword.demo.network.models.Breed
 
-class BreedGridItemAdapter : RecyclerView.Adapter<BreedItemViewHolder>() {
+class BreedGridItemAdapter : BreedItemAdapter() {
 
     private val items = mutableListOf<Breed>()
 
@@ -23,13 +23,8 @@ class BreedGridItemAdapter : RecyclerView.Adapter<BreedItemViewHolder>() {
 
     override fun getItemCount() = items.size
 
-    fun update(items: List<Breed>) {
-        this.items.clear()
-        add(items)
-    }
-
-    fun add(items: List<Breed>) {
+    override fun add(items: List<Breed>) {
         this.items.addAll(items)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(this.items.size - items.size, items.size)
     }
 }

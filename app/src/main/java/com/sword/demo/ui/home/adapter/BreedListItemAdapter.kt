@@ -2,11 +2,10 @@ package com.sword.demo.ui.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.sword.demo.R
 import com.sword.demo.network.models.Breed
 
-class BreedListItemAdapter : RecyclerView.Adapter<BreedItemViewHolder>() {
+class BreedListItemAdapter : BreedItemAdapter() {
 
     private val items = mutableListOf<Breed>()
 
@@ -23,7 +22,7 @@ class BreedListItemAdapter : RecyclerView.Adapter<BreedItemViewHolder>() {
 
     override fun getItemCount() = items.size
 
-    fun add(items: List<Breed>) {
+    override fun add(items: List<Breed>) {
         this.items.addAll(items)
         notifyItemRangeInserted(this.items.size - items.size, items.size)
     }
