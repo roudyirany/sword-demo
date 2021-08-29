@@ -19,10 +19,11 @@
 
     <TextView
         android:id="@+id/breed_name_value"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/breed_name_label"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,10 +40,11 @@
 
     <TextView
         android:id="@+id/breed_category_value"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/breed_category_label"
         app:layout_constraintTop_toBottomOf="@+id/breed_name_value" />
 
@@ -59,10 +61,11 @@
 
     <TextView
         android:id="@+id/breed_origin_value"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/breed_origin_label"
         app:layout_constraintTop_toBottomOf="@+id/breed_category_value" />
 
@@ -81,11 +84,12 @@
 
     <TextView
         android:id="@+id/breed_temperament_value"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/breed_temperament_label"
         app:layout_constraintTop_toBottomOf="@+id/breed_origin_value"
         app:layout_constraintVertical_bias="0" />
