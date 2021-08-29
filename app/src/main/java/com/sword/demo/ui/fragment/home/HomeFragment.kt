@@ -59,7 +59,12 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         homeViewModel.breedsChanges()
-            .doOnSubscribe { binding.progressBar.visibility = View.VISIBLE }
+            .doOnSubscribe {
+                if (listAdapter.itemCount == 0 || gridAdapter.itemCount == 0) {
+                    homeViewModel.getBreeds(0)
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+            }
             .doOnNext { (items, _) ->
                 binding.progressBar.visibility = View.GONE
                 listAdapter.add(items)

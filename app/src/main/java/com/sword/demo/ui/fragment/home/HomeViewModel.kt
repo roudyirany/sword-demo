@@ -60,7 +60,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun breedsChanges(): Observable<Pair<List<Breed>, Boolean>> {
-        getBreeds(0)
         return breedsSubject.hide()
     }
 
