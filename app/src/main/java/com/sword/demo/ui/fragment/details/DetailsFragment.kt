@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
 
-    private val viewModel: DetailsViewModel by hiltNavGraphViewModels(R.navigation.details_navigation)
+    private val viewModel: DetailsViewModel by hiltNavGraphViewModels(R.navigation.main_navigation)
     private var _binding: FragmentDetailsBinding? = null
 
     // This property is only valid between onCreateView and
