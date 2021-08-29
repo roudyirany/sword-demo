@@ -1,6 +1,7 @@
 package com.sword.demo.ui.activity.main
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -34,5 +35,12 @@ class MainActivity : AppCompatActivity() {
             AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_search))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.navigation_details -> navView.visibility = View.GONE
+                else -> navView.visibility = View.VISIBLE
+            }
+        }
     }
 }

@@ -5,7 +5,7 @@
     android:id="@+id/main_navigation"
     app:startDestination="@+id/navigation_home">
 
-    <activity
+    <fragment
         android:id="@+id/navigation_details"
         android:name="com.sword.demo.ui.fragment.details.DetailsFragment"
         android:label="@string/title_details"
