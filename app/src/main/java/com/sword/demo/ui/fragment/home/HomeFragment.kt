@@ -99,6 +99,7 @@ class HomeFragment : BaseFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.recyclerView.layoutManager = null
         _binding = null
     }
 
