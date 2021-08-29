@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.navigation.fragment.findNavController
 import com.jakewharton.rxbinding4.widget.queryTextChanges
 import com.sword.demo.R
 import com.sword.demo.base.BaseFragment
@@ -56,6 +57,15 @@ class SearchFragment : BaseFragment() {
             }, { error ->
                 Toast.makeText(requireContext(), error.localizedMessage, Toast.LENGTH_LONG).show()
             })
+            .addSubscriptionTo(this)
+
+        adapter.clicks()
+            .map { breed ->
+                SearchFragmentDirections.actionNavigationSearchToNavigationDetails(breed)
+            }
+            .subscribe { action ->
+                findNavController().navigate(action)
+            }
             .addSubscriptionTo(this)
     }
 

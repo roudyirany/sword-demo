@@ -13,7 +13,8 @@
         <argument
             android:name="breed"
             android:defaultValue="@null"
-            app:argType="com.sword.demo.network.models.Breed" />
+            app:argType="com.sword.demo.network.models.Breed"
+            app:nullable="true" />
     </fragment>
 
     <fragment

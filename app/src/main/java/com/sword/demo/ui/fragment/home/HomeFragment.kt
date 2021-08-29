@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.view.scrollChangeEvents
@@ -15,6 +16,7 @@ import com.sword.demo.databinding.FragmentHomeBinding
 import com.sword.demo.extensions.addSubscriptionTo
 import com.sword.demo.ui.fragment.home.adapter.BreedItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -94,6 +96,15 @@ class HomeFragment : BaseFragment() {
             .clicks()
             .doOnSubscribe { setIsGridMode(homeViewModel.isGridMode) }
             .subscribe { setIsGridMode(!homeViewModel.isGridMode) }
+            .addSubscriptionTo(this)
+
+        Observable.merge(listAdapter.clicks(), gridAdapter.clicks())
+            .map { breed ->
+                HomeFragmentDirections.actionNavigationHomeToNavigationDetails(breed)
+            }
+            .subscribe { action ->
+                findNavController().navigate(action)
+            }
             .addSubscriptionTo(this)
     }
 

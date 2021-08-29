@@ -2,7 +2,9 @@ package com.sword.demo.ui.fragment.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.jakewharton.rxbinding4.view.clicks
 import com.sword.demo.R
+import com.sword.demo.extensions.addSubscriptionTo
 import com.sword.demo.network.models.Breed
 
 class BreedGridItemAdapter : BreedItemAdapter() {
@@ -18,6 +20,16 @@ class BreedGridItemAdapter : BreedItemAdapter() {
 
     override fun onBindViewHolder(holder: BreedItemViewHolder, position: Int) {
         holder.bind(items[position])
+
+        holder.itemView
+            .clicks()
+            .subscribe { onClick(items[holder.adapterPosition]) }
+            .addSubscriptionTo(holder)
+    }
+
+    override fun onViewRecycled(holder: BreedItemViewHolder) {
+        super.onViewRecycled(holder)
+        holder.recycle()
     }
 
     override fun getItemCount() = items.size
