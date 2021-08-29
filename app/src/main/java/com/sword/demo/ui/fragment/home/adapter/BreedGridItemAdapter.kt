@@ -1,23 +1,35 @@
-package com.sword.demo.ui.home.adapter
+package com.sword.demo.ui.fragment.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.jakewharton.rxbinding4.view.clicks
 import com.sword.demo.R
+import com.sword.demo.extensions.addSubscriptionTo
 import com.sword.demo.network.models.Breed
 
-class BreedListItemAdapter : BreedItemAdapter() {
+class BreedGridItemAdapter : BreedItemAdapter() {
 
     private val items = mutableListOf<Breed>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedItemViewHolder {
         return BreedItemViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.layout_breed_list_item, parent, false)
+                .inflate(R.layout.layout_breed_grid_item, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: BreedItemViewHolder, position: Int) {
         holder.bind(items[position])
+
+        holder.itemView
+            .clicks()
+            .subscribe { onClick(items[holder.adapterPosition]) }
+            .addSubscriptionTo(holder)
+    }
+
+    override fun onViewRecycled(holder: BreedItemViewHolder) {
+        super.onViewRecycled(holder)
+        holder.recycle()
     }
 
     override fun getItemCount() = items.size

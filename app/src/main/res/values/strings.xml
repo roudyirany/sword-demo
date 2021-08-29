@@ -2,6 +2,10 @@
     <string name="app_name">My Application</string>
     <string name="title_home">Home</string>
     <string name="title_search">Search</string>
+    <string name="breed_name_label">Name</string>
     <string name="breed_group_label">Group</string>
     <string name="breed_origin_label">Origin</string>
+    <string name="breed_category_label">Category</string>
+    <string name="breed_temperament_label">Temperament</string>
+    <string name="title_details">Details</string>
 </resources>

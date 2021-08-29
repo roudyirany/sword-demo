@@ -1,4 +1,4 @@
-package com.sword.demo.ui.search
+package com.sword.demo.ui.fragment.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.navigation.fragment.findNavController
 import com.jakewharton.rxbinding4.widget.queryTextChanges
 import com.sword.demo.R
 import com.sword.demo.base.BaseFragment
 import com.sword.demo.databinding.FragmentSearchBinding
 import com.sword.demo.extensions.addSubscriptionTo
-import com.sword.demo.ui.search.adapter.BreedSearchItemAdapter
+import com.sword.demo.ui.fragment.search.adapter.BreedSearchItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
@@ -20,7 +21,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SearchFragment : BaseFragment() {
 
-    private val searchViewModel: SearchViewModel by hiltNavGraphViewModels(R.id.mobile_navigation)
+    private val searchViewModel: SearchViewModel by hiltNavGraphViewModels(R.id.main_navigation)
     private var _binding: FragmentSearchBinding? = null
 
     // This property is only valid between onCreateView and
@@ -56,6 +57,15 @@ class SearchFragment : BaseFragment() {
             }, { error ->
                 Toast.makeText(requireContext(), error.localizedMessage, Toast.LENGTH_LONG).show()
             })
+            .addSubscriptionTo(this)
+
+        adapter.clicks()
+            .map { breed ->
+                SearchFragmentDirections.actionNavigationSearchToNavigationDetails(breed)
+            }
+            .subscribe { action ->
+                findNavController().navigate(action)
+            }
             .addSubscriptionTo(this)
     }
 

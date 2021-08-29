@@ -1,4 +1,4 @@
-package com.sword.demo.ui.home
+package com.sword.demo.ui.fragment.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.view.scrollChangeEvents
@@ -13,15 +14,16 @@ import com.sword.demo.R
 import com.sword.demo.base.BaseFragment
 import com.sword.demo.databinding.FragmentHomeBinding
 import com.sword.demo.extensions.addSubscriptionTo
-import com.sword.demo.ui.home.adapter.BreedItemAdapter
+import com.sword.demo.ui.fragment.home.adapter.BreedItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import io.reactivex.rxjava3.core.Observable
 import javax.inject.Inject
 import javax.inject.Named
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
 
-    private val homeViewModel: HomeViewModel by hiltNavGraphViewModels(R.id.mobile_navigation)
+    private val homeViewModel: HomeViewModel by hiltNavGraphViewModels(R.id.main_navigation)
     private var _binding: FragmentHomeBinding? = null
 
     // This property is only valid between onCreateView and
@@ -57,7 +59,12 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         homeViewModel.breedsChanges()
-            .doOnSubscribe { binding.progressBar.visibility = View.VISIBLE }
+            .doOnSubscribe {
+                if (listAdapter.itemCount == 0 || gridAdapter.itemCount == 0) {
+                    homeViewModel.getBreeds(0)
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+            }
             .doOnNext { (items, _) ->
                 binding.progressBar.visibility = View.GONE
                 listAdapter.add(items)
@@ -95,10 +102,20 @@ class HomeFragment : BaseFragment() {
             .doOnSubscribe { setIsGridMode(homeViewModel.isGridMode) }
             .subscribe { setIsGridMode(!homeViewModel.isGridMode) }
             .addSubscriptionTo(this)
+
+        Observable.merge(listAdapter.clicks(), gridAdapter.clicks())
+            .map { breed ->
+                HomeFragmentDirections.actionNavigationHomeToNavigationDetails(breed)
+            }
+            .subscribe { action ->
+                findNavController().navigate(action)
+            }
+            .addSubscriptionTo(this)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.recyclerView.layoutManager = null
         _binding = null
     }
 

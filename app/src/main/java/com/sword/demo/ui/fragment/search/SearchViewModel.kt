@@ -1,4 +1,4 @@
-package com.sword.demo.ui.search
+package com.sword.demo.ui.fragment.search
 
 import androidx.lifecycle.ViewModel
 import com.sword.demo.network.ApiService

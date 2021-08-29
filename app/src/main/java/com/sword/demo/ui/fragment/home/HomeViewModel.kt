@@ -1,4 +1,4 @@
-package com.sword.demo.ui.home
+package com.sword.demo.ui.fragment.home
 
 import androidx.lifecycle.ViewModel
 import com.sword.demo.base.BaseDisposer
@@ -60,7 +60,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun breedsChanges(): Observable<Pair<List<Breed>, Boolean>> {
-        getBreeds(0)
         return breedsSubject.hide()
     }
 
