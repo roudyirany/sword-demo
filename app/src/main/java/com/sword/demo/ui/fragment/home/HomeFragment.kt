@@ -21,7 +21,7 @@ import javax.inject.Named
 @AndroidEntryPoint
 class HomeFragment : BaseFragment() {
 
-    private val homeViewModel: HomeViewModel by hiltNavGraphViewModels(R.id.mobile_navigation)
+    private val homeViewModel: HomeViewModel by hiltNavGraphViewModels(R.id.main_navigation)
     private var _binding: FragmentHomeBinding? = null
 
     // This property is only valid between onCreateView and

@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import com.jakewharton.rxbinding4.widget.queryTextChanges
 import com.sword.demo.R
 import com.sword.demo.base.BaseFragment
 import com.sword.demo.databinding.FragmentSearchBinding
+import com.sword.demo.extensions.addSubscriptionTo
 import com.sword.demo.ui.fragment.search.adapter.BreedSearchItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -18,7 +20,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SearchFragment : BaseFragment() {
 
-    private val searchViewModel: SearchViewModel by hiltNavGraphViewModels(R.id.mobile_navigation)
+    private val searchViewModel: SearchViewModel by hiltNavGraphViewModels(R.id.main_navigation)
     private var _binding: FragmentSearchBinding? = null
 
     // This property is only valid between onCreateView and
