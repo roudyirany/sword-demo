@@ -1,4 +1,4 @@
-package com.sword.demo.ui.home
+package com.sword.demo.ui.fragment.home
 
 import androidx.lifecycle.ViewModel
 import com.sword.demo.base.BaseDisposer

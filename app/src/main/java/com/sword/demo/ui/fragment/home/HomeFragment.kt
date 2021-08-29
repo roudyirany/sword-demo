@@ -1,4 +1,4 @@
-package com.sword.demo.ui.home
+package com.sword.demo.ui.fragment.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import com.sword.demo.R
 import com.sword.demo.base.BaseFragment
 import com.sword.demo.databinding.FragmentHomeBinding
 import com.sword.demo.extensions.addSubscriptionTo
-import com.sword.demo.ui.home.adapter.BreedItemAdapter
+import com.sword.demo.ui.fragment.home.adapter.BreedItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import javax.inject.Named

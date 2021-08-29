@@ -1,12 +1,12 @@
-package com.sword.demo.ui.home
+package com.sword.demo.ui.fragment.home
 
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.sword.demo.ui.home.adapter.BreedGridItemAdapter
-import com.sword.demo.ui.home.adapter.BreedItemAdapter
-import com.sword.demo.ui.home.adapter.BreedListItemAdapter
+import com.sword.demo.ui.fragment.home.adapter.BreedGridItemAdapter
+import com.sword.demo.ui.fragment.home.adapter.BreedItemAdapter
+import com.sword.demo.ui.fragment.home.adapter.BreedListItemAdapter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

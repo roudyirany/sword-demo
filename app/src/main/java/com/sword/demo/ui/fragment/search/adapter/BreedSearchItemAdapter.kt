@@ -1,4 +1,4 @@
-package com.sword.demo.ui.search.adapter
+package com.sword.demo.ui.fragment.search.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

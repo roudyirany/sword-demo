@@ -1,19 +1,18 @@
-package com.sword.demo.ui.home.adapter
+package com.sword.demo.ui.fragment.home.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.sword.demo.R
 import com.sword.demo.network.models.Breed
 
-class BreedGridItemAdapter : BreedItemAdapter() {
+class BreedListItemAdapter : BreedItemAdapter() {
 
     private val items = mutableListOf<Breed>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BreedItemViewHolder {
         return BreedItemViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.layout_breed_grid_item, parent, false)
+                .inflate(R.layout.layout_breed_list_item, parent, false)
         )
     }
 

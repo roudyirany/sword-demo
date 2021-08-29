@@ -1,4 +1,4 @@
-package com.sword.demo.ui.home.adapter
+package com.sword.demo.ui.fragment.home.adapter
 
 import android.view.View
 import android.widget.ImageView

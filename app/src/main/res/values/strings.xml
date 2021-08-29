@@ -4,4 +4,5 @@
     <string name="title_search">Search</string>
     <string name="breed_group_label">Group</string>
     <string name="breed_origin_label">Origin</string>
+    <string name="title_details">Details</string>
 </resources>

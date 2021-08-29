@@ -1,7 +1,8 @@
-package com.sword.demo
+package com.sword.demo.ui.activity.details
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.sword.demo.R
 import com.sword.demo.databinding.ActivityDetailsBinding
 
 class DetailsActivity : AppCompatActivity() {
@@ -12,5 +13,9 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        title = getString(R.string.title_details)
+        actionBar?.setHomeButtonEnabled(true)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
     }
 }

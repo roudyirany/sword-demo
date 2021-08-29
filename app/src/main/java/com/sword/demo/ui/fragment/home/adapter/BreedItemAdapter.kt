@@ -1,4 +1,4 @@
-package com.sword.demo.ui.home.adapter
+package com.sword.demo.ui.fragment.home.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import com.sword.demo.network.models.Breed
