@@ -1,5 +1,6 @@
 package com.sword.demo.ui.fragment.search
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import com.sword.demo.network.ApiService
 import com.sword.demo.network.models.Breed
@@ -11,7 +12,7 @@ import javax.inject.Named
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val apiService: ApiService,
+    @VisibleForTesting val apiService: ApiService,
     @Named("io_scheduler") private val ioScheduler: Scheduler,
     @Named("main_scheduler") private val mainScheduler: Scheduler
 ) : ViewModel() {
