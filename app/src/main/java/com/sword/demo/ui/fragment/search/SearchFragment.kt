@@ -14,9 +14,10 @@ import com.sword.demo.databinding.FragmentSearchBinding
 import com.sword.demo.extensions.addSubscriptionTo
 import com.sword.demo.ui.fragment.search.adapter.BreedSearchItemAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 class SearchFragment : BaseFragment() {
@@ -30,6 +31,10 @@ class SearchFragment : BaseFragment() {
 
     @Inject
     lateinit var adapter: BreedSearchItemAdapter
+
+    @Inject
+    @Named("main_scheduler")
+    lateinit var mainScheduler: Scheduler
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,7 +53,7 @@ class SearchFragment : BaseFragment() {
             .queryTextChanges()
             .debounce(200, TimeUnit.MILLISECONDS)
             .distinctUntilChanged()
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(mainScheduler)
             .flatMap { name ->
                 searchViewModel.searchBreed(name)
             }
