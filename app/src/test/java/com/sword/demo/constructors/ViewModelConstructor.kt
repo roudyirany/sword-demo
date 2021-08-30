@@ -1,6 +1,10 @@
 package com.sword.demo.constructors
 
+import androidx.lifecycle.SavedStateHandle
 import com.sword.demo.network.ApiService
+import com.sword.demo.network.models.Breed
+import com.sword.demo.stubs.stub
+import com.sword.demo.ui.fragment.details.DetailsViewModel
 import com.sword.demo.ui.fragment.home.HomeViewModel
 import com.sword.demo.ui.fragment.search.SearchViewModel
 import io.reactivex.rxjava3.core.Scheduler
@@ -28,6 +32,12 @@ class ViewModelConstructor {
             apiService = apiService,
             ioScheduler = ioScheduler,
             mainScheduler = mainScheduler
+        )
+
+        fun detailsViewModelNewInstance(
+            breed: Breed = Breed.stub()
+        ) = DetailsViewModel(
+            savedStateHandle = SavedStateHandle().apply { set("breed", breed) }
         )
     }
 }
