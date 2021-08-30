@@ -1,21 +1,25 @@
 package com.sword.demo.ui.fragment.home
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import com.sword.demo.base.BaseDisposer
 import com.sword.demo.extensions.addSubscriptionTo
 import com.sword.demo.network.ApiService
 import com.sword.demo.network.models.Breed
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.PublishSubject
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val apiService: ApiService
+    @VisibleForTesting val apiService: ApiService,
+    @Named("io_scheduler") private val ioScheduler: Scheduler,
+    @Named("main_scheduler") private val mainScheduler: Scheduler
 ) : ViewModel(), BaseDisposer {
 
     companion object {
@@ -28,7 +32,8 @@ class HomeViewModel @Inject constructor(
 
     private val breedsError = PublishSubject.create<Throwable>()
 
-    private var lastIndex = 0
+    @VisibleForTesting
+    var lastIndex = 0
 
     var isLoading = false
         private set
@@ -47,8 +52,8 @@ class HomeViewModel @Inject constructor(
         apiService.getBreeds(page, limit)
             .doOnSubscribe { isLoading = true }
             .doOnComplete { isLoading = false }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(ioScheduler)
+            .observeOn(mainScheduler)
             .filter { items -> items.isNotEmpty() }
             .doOnNext { lastIndex = page + 1 }
             .subscribe({ items ->

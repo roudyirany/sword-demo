@@ -13,4 +13,6 @@ data class Breed(
     @SerializedName("name") val name: String,
     @SerializedName("origin") val origin: String,
     @SerializedName("temperament") val temperament: String
-) : Parcelable
+) : Parcelable {
+    companion object
+}
